@@ -40,6 +40,7 @@ require(
         			cols:[
         		        buildButton('Home', ''),
         		        buildButton('Marks', 'marks'),        		        
+        		        buildButton('Cars', 'cars')        		        
         		      ]
         		},
         		{        			
