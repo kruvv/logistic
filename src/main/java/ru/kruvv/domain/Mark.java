@@ -5,7 +5,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import lombok.Data;
+import ru.kruvv.util.EntityIdResolver;
 
 /**
  * @author Viktor Krupkin
@@ -13,7 +17,8 @@ import lombok.Data;
 
 @Data
 @Entity
-public class Mark {
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, scope = Mark.class, resolver = EntityIdResolver.class, property = "id")
+public class Mark implements ComboListItem {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.TABLE)

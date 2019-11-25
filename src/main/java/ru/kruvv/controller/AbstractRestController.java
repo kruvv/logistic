@@ -1,5 +1,8 @@
 package ru.kruvv.controller;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -12,11 +15,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import ru.kruvv.domain.ComboListItem;
+import ru.kruvv.dto.ListItemDto;
+
 /**
  * @author Viktor Krupkin
  **/
 
-public abstract class AbstractRestController<T, R extends JpaRepository<T, ?>> {
+public abstract class AbstractRestController<T extends ComboListItem, R extends JpaRepository<T, ?>> {
 	protected R repo;
 
 	public AbstractRestController(R repo) {
@@ -52,6 +58,11 @@ public abstract class AbstractRestController<T, R extends JpaRepository<T, ?>> {
 	public void delete(@PathVariable("id") T obj) {
 		// delete entity from DB
 		repo.delete(obj);
+	}
+
+	@GetMapping("list")
+	public List<ListItemDto> list() {
+		return repo.findAll().stream().map(entity -> new ListItemDto(entity.getId(), entity.getName())).collect(Collectors.toList());
 	}
 
 }

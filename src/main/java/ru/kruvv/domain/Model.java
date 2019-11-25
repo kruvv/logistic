@@ -6,9 +6,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import lombok.Data;
+import ru.kruvv.util.EntityIdResolver;
 
 /**
  * @author Viktor Krupkin
@@ -16,7 +19,8 @@ import lombok.Data;
 
 @Entity
 @Data
-public class Car implements ComboListItem {
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, scope = Model.class, resolver = EntityIdResolver.class, property = "id")
+public class Model implements ComboListItem {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
@@ -24,6 +28,6 @@ public class Car implements ComboListItem {
 
 	@ManyToOne
 	@JsonIdentityReference(alwaysAsId = true)
-	private Model model;
+	private Mark mark;
 
 }
